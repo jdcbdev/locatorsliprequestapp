@@ -20,4 +20,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_login2">LoginActivity2</string>
+
+    <string name="ip_address">192.168.38.99</string>
+
 </resources>

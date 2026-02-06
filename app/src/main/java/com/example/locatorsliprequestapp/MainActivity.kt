@@ -1,8 +1,11 @@
 package com.example.locatorsliprequestapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -12,22 +15,33 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.locatorsliprequestapp.databinding.ActivityMainBinding
-import com.example.locatorsliprequestapp.ui.login.LoginActivity
+import com.example.locatorsliprequestapp.LoginActivity
+import com.example.locatorsliprequestapp.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    private val addRequestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            // Refresh the HomeFragment
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
+            val homeFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as? HomeFragment
+            homeFragment?.loadRequests()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // --- CHECK USER SESSION ---
         val pref = getSharedPreferences("session", MODE_PRIVATE)
-        val userId = pref.getInt("userId", 0)
+        val empId = pref.getInt("empId", 0)
 
-        if (userId == 0) {
+        if (empId == 0) {
             // User not logged in → go to LoginActivity
             startActivity(Intent(this, LoginActivity::class.java))
             finish() // Close MainActivity so back button won't return here
@@ -41,11 +55,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab)
-                .show()
+        binding.appBarMain.fab.setOnClickListener {
+            val intent = Intent(this, RequestLocatorActivity::class.java)
+            addRequestLauncher.launch(intent)
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -61,7 +73,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+
+        // Optional: Tint logout icon red
+        val logoutItem = menu.findItem(R.id.action_logout)
+        logoutItem.icon?.setTint(ContextCompat.getColor(this, R.color.wmsu))
+
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                // Clear session
+                val pref = getSharedPreferences("session", MODE_PRIVATE)
+                pref.edit().clear().apply()
+
+                // Go to LoginActivity
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

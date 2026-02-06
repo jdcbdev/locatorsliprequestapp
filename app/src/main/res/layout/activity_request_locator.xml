@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RequestLocatorActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/wmsu"
+        app:title="Locator Slip"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Employee Name:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvNameLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNameLabel" />
+
+    <TextView
+        android:id="@+id/tvDeptLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Department:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameLabel" />
+
+    <TextView
+        android:id="@+id/tvDept"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvDeptLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvDeptLabel" />
+
+    <TextView
+        android:id="@+id/tvEmployeeCodeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Employee Code:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvDeptLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeptLabel" />
+
+    <TextView
+        android:id="@+id/tvEmployeeCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvEmployeeCodeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvEmployeeCodeLabel" />
+
+    <TextView
+        android:id="@+id/tvDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Date of Request:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvDeptLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvEmployeeCodeLabel" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvDateLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvDateLabel" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/purposeLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Purpose"
+        app:layout_constraintEnd_toEndOf="@+id/tvDate"
+        app:layout_constraintStart_toStartOf="@+id/tvDateLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateLabel">
+
+        <AutoCompleteTextView
+            android:id="@+id/purposeDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/destinationLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Destination"
+        app:layout_constraintEnd_toEndOf="@+id/purposeLayout"
+        app:layout_constraintStart_toStartOf="@+id/purposeLayout"
+        app:layout_constraintTop_toBottomOf="@id/purposeLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/destinationEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvSupervisorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Supervisor:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/destinationLayout"
+        app:layout_constraintTop_toBottomOf="@+id/destinationLayout" />
+
+    <TextView
+        android:id="@+id/tvSupervisor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvSupervisorLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvSupervisorLabel" />
+
+
+    <TextView
+        android:id="@+id/tvNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="This request will be forwarded to your supervisor for approval."
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/destinationLayout"
+        app:layout_constraintStart_toStartOf="@+id/destinationLayout"
+        app:layout_constraintTop_toBottomOf="@+id/tvSupervisor" />
+
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Submit"
+        android:backgroundTint="@color/wmsu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

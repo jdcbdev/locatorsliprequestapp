@@ -1,7 +1,6 @@
 package com.example.locatorsliprequestapp.api
 
-data class LoginResponse(
+data class EmployeeResponse(
     val success: Boolean,
-    val empId: Int,
-    val role: String
+    val employee: Employee
 )

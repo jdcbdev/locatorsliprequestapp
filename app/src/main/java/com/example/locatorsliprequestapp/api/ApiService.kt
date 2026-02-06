@@ -1,14 +1,36 @@
 package com.example.locatorsliprequestapp.api
 
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 interface ApiService {
 
     @FormUrlEncoded
     @POST("login.php")
     fun login(
-        @Field("username") user: String,
-        @Field("password") pass: String
+        @Field("username") username: String,
+        @Field("pass") pass: String
     ): Call<LoginResponse>
+
+    @FormUrlEncoded
+    @POST("getRequestsByEmployee.php")
+    fun getRequestsByEmployee(
+        @Field("employeeId") employeeId: Int
+    ): Call<RequestListResponse>
+
+    @FormUrlEncoded
+    @POST("addRequest.php")
+    fun addRequest(
+        @Field("employeeId") employeeId: Int,
+        @Field("purpose") purpose: String,
+        @Field("location") location: String
+    ): Call<AddRequestResponse>
+
+    @FormUrlEncoded
+    @POST("getemployeebyid.php")
+    fun getEmployeeById(
+        @Field("employeeId") employeeId: Int
+    ): Call<EmployeeResponse>
 }
