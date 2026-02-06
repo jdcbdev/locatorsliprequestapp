@@ -9,7 +9,6 @@
     android:background="@android:color/white">
 
     <!-- Logo -->
-
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="120dp"
@@ -19,53 +18,58 @@
         app:srcCompat="@drawable/wmsulogo" />
 
     <!-- Title -->
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="Locator Slip Request"
+        android:text="Locator's Slip Request"
         android:textColor="@color/wmsu"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <!-- Username -->
-    <EditText
-        android:id="@+id/etUsername"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@android:drawable/edit_text"
-        android:capitalize="none"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:hint="Username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Password -->
-    <EditText
-        android:id="@+id/etPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:background="@android:drawable/edit_text"
         android:hint="Password"
-        android:inputType="textPassword"
-        android:padding="12dp"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Login Button -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="Login"
-        android:textSize="17sp"
-        android:textColor="@android:color/white"
-        android:backgroundTint="@color/wmsu" />
+        android:textSize="16sp"
+        app:backgroundTint="@color/wmsu" />
 
 </LinearLayout>

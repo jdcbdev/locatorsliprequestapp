@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.locatorsliprequestapp.ui.gallery.GalleryFragment"
+        android:name="com.example.locatorsliprequestapp.ui.slipsforapproval.SlipsForApprovalFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_slips_for_approval" />
 
     <fragment
         android:id="@+id/nav_slideshow"

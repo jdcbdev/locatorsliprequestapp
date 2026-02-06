@@ -135,6 +135,25 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/detailsLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Details"
+        app:layout_constraintEnd_toEndOf="@+id/destinationLayout"
+        app:layout_constraintStart_toStartOf="@+id/destinationLayout"
+        app:layout_constraintTop_toBottomOf="@id/destinationLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/detailsEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:gravity="top" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvSupervisorLabel"
         android:layout_width="wrap_content"
@@ -142,8 +161,8 @@
         android:layout_marginTop="16dp"
         android:text="Supervisor:"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/destinationLayout"
-        app:layout_constraintTop_toBottomOf="@+id/destinationLayout" />
+        app:layout_constraintStart_toStartOf="@+id/detailsLayout"
+        app:layout_constraintTop_toBottomOf="@+id/detailsLayout" />
 
     <TextView
         android:id="@+id/tvSupervisor"
@@ -164,15 +183,15 @@
         android:gravity="center"
         android:text="This request will be forwarded to your supervisor for approval."
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/destinationLayout"
-        app:layout_constraintStart_toStartOf="@+id/destinationLayout"
+        app:layout_constraintEnd_toEndOf="@+id/detailsLayout"
+        app:layout_constraintStart_toStartOf="@+id/detailsLayout"
         app:layout_constraintTop_toBottomOf="@+id/tvSupervisor" />
 
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"

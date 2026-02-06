@@ -87,13 +87,14 @@ class RequestLocatorActivity : AppCompatActivity() {
         binding.submitButton.setOnClickListener {
             val purpose = binding.purposeDropdown.text.toString()
             val destination = binding.destinationEditText.text.toString()
+            val details = binding.detailsEditText.text.toString()
 
-            if (purpose.isNotEmpty() && destination.isNotEmpty()) {
+            if (purpose.isNotEmpty() && destination.isNotEmpty() && details.isNotEmpty()) {
                 val pref = getSharedPreferences("session", MODE_PRIVATE)
                 val employeeId = pref.getInt("empId", 0)
 
                 if (employeeId != 0) {
-                    addRequest(employeeId, purpose, destination)
+                    addRequest(employeeId, purpose, destination, details)
                 } else {
                     Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
                 }
@@ -103,8 +104,8 @@ class RequestLocatorActivity : AppCompatActivity() {
         }
     }
 
-    private fun addRequest(employeeId: Int, purpose: String, location: String) {
-        ApiClient.instance.addRequest(employeeId, purpose, location)
+    private fun addRequest(employeeId: Int, purpose: String, location: String, details: String) {
+        ApiClient.instance.addRequest(employeeId, purpose, location, details)
             .enqueue(object : Callback<AddRequestResponse> {
                 override fun onResponse(
                     call: Call<AddRequestResponse>,

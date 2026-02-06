@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -16,9 +18,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.locatorsliprequestapp.api.ApiClient
+import com.example.locatorsliprequestapp.api.EmployeeResponse
 import com.example.locatorsliprequestapp.databinding.ActivityMainBinding
 import com.example.locatorsliprequestapp.LoginActivity
 import com.example.locatorsliprequestapp.ui.home.HomeFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,6 +76,47 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Fetch and display user info in the navigation header
+        updateNavHeader(empId)
+    }
+
+    private fun updateNavHeader(employeeId: Int) {
+        ApiClient.instance.getEmployeeById(employeeId)
+            .enqueue(object : Callback<EmployeeResponse> {
+                override fun onResponse(
+                    call: Call<EmployeeResponse>,
+                    response: Response<EmployeeResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val emp = response.body()!!.employee
+                        val headerView = binding.navView.getHeaderView(0)
+                        val navHeaderName = headerView.findViewById<TextView>(R.id.navHeaderName)
+                        val navHeaderDepartment = headerView.findViewById<TextView>(R.id.navHeaderDepartment)
+
+                        val fullName = "${emp.firstname} ${emp.lastname}"
+                        navHeaderName.text = fullName
+                        navHeaderDepartment.text = emp.department
+
+                        // --- CHECK USER SESSION ---
+                        val pref = getSharedPreferences("session", MODE_PRIVATE)
+                        val empRole = pref.getString("role", "")
+
+                        // Show/hide menu item based on role
+                        if (empRole != "admin") {
+                            val menu = binding.navView.menu
+                            menu.findItem(R.id.nav_gallery).isVisible = false
+                        }
+
+                    } else {
+                        Toast.makeText(this@MainActivity, "Failed to load user data", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<EmployeeResponse>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "An error occurred: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
