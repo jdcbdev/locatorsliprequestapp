@@ -9,18 +9,19 @@ import com.example.locatorsliprequestapp.R
 import com.example.locatorsliprequestapp.api.Request
 
 class RequestAdapter(
-    private val list: List<Request>
+    private var list: List<Request>
 ) : RecyclerView.Adapter<RequestAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val purpose: TextView = view.findViewById(R.id.txtPurpose)
         val location: TextView = view.findViewById(R.id.txtLocation)
         val status: TextView = view.findViewById(R.id.txtStatus)
+        val details: TextView = view.findViewById(R.id.txtDetails)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_request, parent, false)
+            .inflate(R.layout.row_my_request, parent, false)
         return ViewHolder(view)
     }
 
@@ -29,7 +30,13 @@ class RequestAdapter(
         holder.purpose.text = item.purpose
         holder.location.text = item.location
         holder.status.text = item.status
+        holder.details.text = item.details
     }
 
     override fun getItemCount() = list.size
+
+    fun updateData(newList: List<Request>) {
+        list = newList
+        notifyDataSetChanged()
+    }
 }
