@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatorsliprequestapp.R
-import com.example.locatorsliprequestapp.api.Request
+import com.example.locatorsliprequestapp.api.RequestByEmployeeData
 
 class LocatorSlipAdapter(
     private val context: Context,
-    private var list: List<Request>
+    private var list: List<RequestByEmployeeData>
 ) : RecyclerView.Adapter<LocatorSlipAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,7 +35,7 @@ class LocatorSlipAdapter(
 
     override fun getItemCount() = list.size
 
-    fun updateData(newList: List<Request>) {
+    fun updateData(newList: List<RequestByEmployeeData>) {
         list = newList
         notifyDataSetChanged()
     }

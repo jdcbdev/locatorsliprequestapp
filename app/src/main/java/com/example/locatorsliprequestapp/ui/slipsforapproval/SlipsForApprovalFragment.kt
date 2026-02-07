@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locatorsliprequestapp.api.ApiClient
-import com.example.locatorsliprequestapp.api.RequestListResponse
+import com.example.locatorsliprequestapp.api.RequestByEmployeeListResponse
 import com.example.locatorsliprequestapp.databinding.FragmentSlipsForApprovalBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,19 +44,19 @@ class SlipsForApprovalFragment : Fragment() {
 
         if (supervisorId != 0) {
             ApiClient.instance.getRequestsBySupervisor(supervisorId)
-                .enqueue(object : Callback<RequestListResponse> {
+                .enqueue(object : Callback<RequestByEmployeeListResponse> {
                     override fun onResponse(
-                        call: Call<RequestListResponse>,
-                        response: Response<RequestListResponse>
+                        call: Call<RequestByEmployeeListResponse>,
+                        response: Response<RequestByEmployeeListResponse>
                     ) {
                         if (response.isSuccessful && response.body()?.success == true) {
-                            adapter.updateData(response.body()!!.requests)
+                            adapter.updateData(response.body()!!.requestByEmployeeData)
                         } else {
                             Toast.makeText(requireContext(), "Failed to load requests", Toast.LENGTH_SHORT).show()
                         }
                     }
 
-                    override fun onFailure(call: Call<RequestListResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<RequestByEmployeeListResponse>, t: Throwable) {
                         Toast.makeText(requireContext(), "An error occurred: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })

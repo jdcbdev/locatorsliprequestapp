@@ -1,6 +1,6 @@
 package com.example.locatorsliprequestapp.api
 
-data class Employee(
+data class EmployeeData(
     val id: Int,
     val employee_code: String,
     val firstname: String,

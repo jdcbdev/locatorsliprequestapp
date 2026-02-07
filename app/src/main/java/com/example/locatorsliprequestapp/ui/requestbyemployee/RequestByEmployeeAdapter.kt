@@ -1,4 +1,4 @@
-package com.example.locatorsliprequestapp.ui.home
+package com.example.locatorsliprequestapp.ui.requestbyemployee
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatorsliprequestapp.R
-import com.example.locatorsliprequestapp.api.Request
+import com.example.locatorsliprequestapp.api.RequestByEmployeeData
 
-class RequestAdapter(
-    private var list: List<Request>
-) : RecyclerView.Adapter<RequestAdapter.ViewHolder>() {
+class RequestByEmployeeAdapter(
+    private var list: List<RequestByEmployeeData>
+) : RecyclerView.Adapter<RequestByEmployeeAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val purpose: TextView = view.findViewById(R.id.txtPurpose)
@@ -21,7 +21,7 @@ class RequestAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_my_request, parent, false)
+            .inflate(R.layout.row_my_request_as_employee, parent, false)
         return ViewHolder(view)
     }
 
@@ -35,7 +35,7 @@ class RequestAdapter(
 
     override fun getItemCount() = list.size
 
-    fun updateData(newList: List<Request>) {
+    fun updateData(newList: List<RequestByEmployeeData>) {
         list = newList
         notifyDataSetChanged()
     }

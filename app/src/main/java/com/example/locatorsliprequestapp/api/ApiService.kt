@@ -18,7 +18,7 @@ interface ApiService {
     @POST("getRequestsByEmployee.php")
     fun getRequestsByEmployee(
         @Field("employeeId") employeeId: Int
-    ): Call<RequestListResponse>
+    ): Call<RequestByEmployeeListResponse>
 
     @FormUrlEncoded
     @POST("addRequest.php")
@@ -39,5 +39,5 @@ interface ApiService {
     @POST("getRequestsBySupervisor.php")
     fun getRequestsBySupervisor(
         @Field("supervisorId") supervisorId: Int
-    ): Call<RequestListResponse>
+    ): Call<RequestByEmployeeListResponse>
 }

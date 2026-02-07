@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,8 +20,7 @@ import androidx.core.content.ContextCompat
 import com.example.locatorsliprequestapp.api.ApiClient
 import com.example.locatorsliprequestapp.api.EmployeeResponse
 import com.example.locatorsliprequestapp.databinding.ActivityMainBinding
-import com.example.locatorsliprequestapp.LoginActivity
-import com.example.locatorsliprequestapp.ui.home.HomeFragment
+import com.example.locatorsliprequestapp.ui.requestbyemployee.RequestByEmployeeFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         if (it.resultCode == Activity.RESULT_OK) {
             // Refresh the HomeFragment
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
-            val homeFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as? HomeFragment
-            homeFragment?.loadRequests()
+            val requestByEmployeeFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as? RequestByEmployeeFragment
+            requestByEmployeeFragment?.loadRequests()
         }
     }
 
@@ -47,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         // --- CHECK USER SESSION ---
         val pref = getSharedPreferences("session", MODE_PRIVATE)
         val empId = pref.getInt("empId", 0)
+
+
 
         if (empId == 0) {
             // User not logged in → go to LoginActivity
@@ -89,25 +89,29 @@ class MainActivity : AppCompatActivity() {
                     response: Response<EmployeeResponse>
                 ) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        val emp = response.body()!!.employee
-                        val headerView = binding.navView.getHeaderView(0)
-                        val navHeaderName = headerView.findViewById<TextView>(R.id.navHeaderName)
-                        val navHeaderDepartment = headerView.findViewById<TextView>(R.id.navHeaderDepartment)
+                        println(response.body())
+                        response.body()?.employeeData?.let { emp ->
+                            val headerView = binding.navView.getHeaderView(0)
+                            val navHeaderName = headerView.findViewById<TextView>(R.id.navHeaderName)
+                            val navHeaderDepartment =
+                                headerView.findViewById<TextView>(R.id.navHeaderDepartment)
 
-                        val fullName = "${emp.firstname} ${emp.lastname}"
-                        navHeaderName.text = fullName
-                        navHeaderDepartment.text = emp.department
+                            val fullName = "${emp.firstname} ${emp.lastname}"
+                            navHeaderName.text = fullName
+                            navHeaderDepartment.text = emp.department
 
-                        // --- CHECK USER SESSION ---
-                        val pref = getSharedPreferences("session", MODE_PRIVATE)
-                        val empRole = pref.getString("role", "")
+                            // --- CHECK USER SESSION ---
+                            val pref = getSharedPreferences("session", MODE_PRIVATE)
+                            val empRole = pref.getString("role", "")
 
-                        // Show/hide menu item based on role
-                        if (empRole != "admin") {
-                            val menu = binding.navView.menu
-                            menu.findItem(R.id.nav_gallery).isVisible = false
+                            // Show/hide menu item based on role
+                            if (empRole != "admin") {
+                                val menu = binding.navView.menu
+                                menu.findItem(R.id.nav_gallery).isVisible = false
+                            }
+                        } ?: run {
+                            Toast.makeText(this@MainActivity, "Failed to retrieve employee data", Toast.LENGTH_SHORT).show()
                         }
-
                     } else {
                         Toast.makeText(this@MainActivity, "Failed to load user data", Toast.LENGTH_SHORT).show()
                     }

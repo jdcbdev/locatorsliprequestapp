@@ -42,6 +42,8 @@ class RequestLocatorActivity : AppCompatActivity() {
         val pref = getSharedPreferences("session", MODE_PRIVATE)
         val empId = pref.getInt("empId", 0)
 
+
+
         ApiClient.instance.getEmployeeById(empId)
             .enqueue(object : Callback<EmployeeResponse> {
 
@@ -50,7 +52,7 @@ class RequestLocatorActivity : AppCompatActivity() {
                     response: Response<EmployeeResponse>
                 ) {
                     if (response.isSuccessful && response.body()?.success == true) {
-                        val emp = response.body()!!.employee
+                        val emp = response.body()!!.employeeData
 
                         val fullName = "${emp.firstname} ${emp.lastname}"
                         val supervisor = emp.supervisor_name ?: "None"
