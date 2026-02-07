@@ -18,13 +18,14 @@ import java.util.concurrent.TimeUnit
 class LocatorSlipForApprovalAdapter(
     private val context: Context,
     private var list: List<RequestBySupervisorData>,
-    private val onApprove: (Int) -> Unit,
-    private val onDeny: (Int) -> Unit,
+    private val onApprove: (Int, String) -> Unit,
+    private val onDeny: (Int, String) -> Unit,
     private val statusFilter: String
 ) : RecyclerView.Adapter<LocatorSlipForApprovalAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val employeeName: TextView = view.findViewById(R.id.txtEmployeeName)
+        val departmentName: TextView = view.findViewById(R.id.txtDepartment)
         val requestDate: TextView = view.findViewById(R.id.txtRequestDate)
         val approvalStatus: TextView = view.findViewById(R.id.txtApprovalStatus)
         val purpose: TextView = view.findViewById(R.id.txtPurpose)
@@ -53,6 +54,9 @@ class LocatorSlipForApprovalAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.employeeName.text = "${item.firstname} ${item.lastname}"
+        holder.departmentName.text = item.department
+
+        // Format the date
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("MMM dd, yyyy hh:mm a")
@@ -135,11 +139,11 @@ class LocatorSlipForApprovalAdapter(
         }
 
         holder.approveButton.setOnClickListener {
-            onApprove(item.requestId)
+            onApprove(item.requestId, "Approved")
         }
 
         holder.denyButton.setOnClickListener {
-            onDeny(item.requestId)
+            onDeny(item.requestId, "Denied")
         }
     }
 

@@ -24,12 +24,13 @@
 
         <TextView
             android:id="@+id/txtEmployeeName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            tools:text="Priya Shah"
+            app:layout_constraintBaseline_toBaselineOf="@+id/labelEmployeeName"
+            app:layout_constraintEnd_toStartOf="@+id/ivToggleDetails"
             app:layout_constraintStart_toEndOf="@+id/labelEmployeeName"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:text="Priya Shah" />
 
         <ImageView
             android:id="@+id/ivToggleDetails"
@@ -40,6 +41,26 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/labelDepartment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Department:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelEmployeeName" />
+
+        <TextView
+            android:id="@+id/txtDepartment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/labelDepartment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/labelDepartment"
+            tools:text="IT Department" />
+
+        <TextView
             android:id="@+id/labelLeavePeriod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,7 +68,7 @@
             android:layout_marginTop="4dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelEmployeeName" />
+            app:layout_constraintTop_toBottomOf="@+id/txtDepartment" />
 
         <TextView
             android:id="@+id/txtRequestDate"
@@ -56,8 +77,8 @@
             android:layout_marginStart="8dp"
             tools:text="Oct 10, 2019 (0.5 days)"
             android:textColor="@color/wmsu"
-            app:layout_constraintStart_toEndOf="@+id/labelLeavePeriod"
-            app:layout_constraintTop_toTopOf="@+id/labelLeavePeriod" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/labelLeavePeriod"
+            app:layout_constraintStart_toEndOf="@+id/labelLeavePeriod" />
 
         <TextView
             android:id="@+id/labelApprovalStatus"
@@ -76,8 +97,8 @@
             android:layout_marginStart="8dp"
             tools:text="Waiting for Approval"
             android:textColor="@color/waiting_for_approval"
-            app:layout_constraintStart_toEndOf="@+id/labelApprovalStatus"
-            app:layout_constraintTop_toTopOf="@+id/labelApprovalStatus" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/labelApprovalStatus"
+            app:layout_constraintStart_toEndOf="@+id/labelApprovalStatus" />
 
         <LinearLayout
             android:id="@+id/purposeLayout"
@@ -161,7 +182,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android.orientation="horizontal">
+                android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

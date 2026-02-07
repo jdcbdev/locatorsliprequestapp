@@ -2,6 +2,7 @@ package com.example.locatorsliprequestapp.ui.slipsforapproval
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.locatorsliprequestapp.api.ApiClient
 import com.example.locatorsliprequestapp.api.RequestBySupervisorListResponse
-import com.example.locatorsliprequestapp.api.UpdateStatusResponse
+import com.example.locatorsliprequestapp.api.UpdateStatusRequestResponse
 import com.example.locatorsliprequestapp.databinding.FragmentSlipsListBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,8 +40,8 @@ class SlipsListFragment : Fragment() {
         val root: View = binding.root
 
         adapter = LocatorSlipForApprovalAdapter(requireContext(), emptyList(),
-            onApprove = { requestId -> updateRequestStatus(requestId, "Approved") },
-            onDeny = { requestId -> updateRequestStatus(requestId, "Denied") },
+            onApprove = ::updateRequestStatus,
+            onDeny = ::updateRequestStatus,
             statusFilter = statusFilter ?: "Pending")
         binding.slipsRecyclerView.adapter = adapter
         binding.slipsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -68,6 +69,7 @@ class SlipsListFragment : Fragment() {
                     ) {
                         binding.swipeRefreshLayout.isRefreshing = false
                         if (response.isSuccessful && response.body()?.success == true) {
+                            Log.d("SlipsListFragment", "Raw response: ${response.raw()}")
                             adapter.updateData(response.body()!!.requestBySupervisorData)
                         } else {
                             Toast.makeText(requireContext(), "Failed to load requests", Toast.LENGTH_SHORT).show()
@@ -85,11 +87,11 @@ class SlipsListFragment : Fragment() {
     private fun updateRequestStatus(requestId: Int, status: String) {
         val pref = requireActivity().getSharedPreferences("session", Context.MODE_PRIVATE)
         val supervisorId = pref.getInt("empId", 0)
-        ApiClient.instance.updateRequestStatus(requestId, status, supervisorId)
-            .enqueue(object : Callback<UpdateStatusResponse> {
+        ApiClient.instance.updateStatus(requestId, status, supervisorId)
+            .enqueue(object : Callback<UpdateStatusRequestResponse> {
                 override fun onResponse(
-                    call: Call<UpdateStatusResponse>,
-                    response: Response<UpdateStatusResponse>
+                    call: Call<UpdateStatusRequestResponse>,
+                    response: Response<UpdateStatusRequestResponse>
                 ) {
                     if (response.isSuccessful && response.body()?.success == true) {
                         Toast.makeText(requireContext(), "Request has been $status", Toast.LENGTH_SHORT).show()
@@ -99,7 +101,7 @@ class SlipsListFragment : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<UpdateStatusResponse>, t: Throwable) {
+                override fun onFailure(call: Call<UpdateStatusRequestResponse>, t: Throwable) {
                     Toast.makeText(requireContext(), "An error occurred: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })

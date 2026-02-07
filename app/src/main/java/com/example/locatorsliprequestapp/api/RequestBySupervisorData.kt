@@ -3,7 +3,7 @@ package com.example.locatorsliprequestapp.api
 import com.google.gson.annotations.SerializedName
 
 data class RequestBySupervisorData(
-    @SerializedName("id")
+    @SerializedName("requestId")
     val requestId: Int,
     val firstname: String,
     val lastname: String,

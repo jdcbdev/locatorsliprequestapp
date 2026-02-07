@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             // Refresh the HomeFragment
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
             val requestByEmployeeFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as? RequestByEmployeeFragment
-            requestByEmployeeFragment?.loadRequests()
+            requestByEmployeeFragment?.fetchRequests()
         }
     }
 

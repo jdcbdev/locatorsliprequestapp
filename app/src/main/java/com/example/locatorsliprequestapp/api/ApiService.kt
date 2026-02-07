@@ -1,6 +1,7 @@
 package com.example.locatorsliprequestapp.api
 
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -43,10 +44,24 @@ interface ApiService {
     ): Call<RequestBySupervisorListResponse>
 
     @FormUrlEncoded
-    @POST("updateRequest.php")
-    fun updateRequestStatus(
-        @Field("id") requestId: Int,
+    @POST("updateStatus.php")
+    fun updateStatus(
+        @Field("requestId") requestId: Int,
         @Field("status") status: String,
-        @Field("actionby") actionBy: Int
-    ): Call<UpdateStatusResponse>
+        @Field("actionBy") actionBy: Int
+    ): Call<UpdateStatusRequestResponse>
+
+    @FormUrlEncoded
+    @POST("updateTimeOut.php")
+    fun updateTimeOut(
+        @Field("requestId") requestId: Int,
+        @Field("exitpoint") exitPoint: String
+    ): Call<UpdateTimeOutRequestResponse>
+
+    @FormUrlEncoded
+    @POST("updateTimeIn.php")
+    fun updateTimeIn(
+        @Field("requestId") requestId: Int,
+        @Field("entrypoint") entryPoint: String
+    ): Call<UpdateTimeInRequestResponse>
 }

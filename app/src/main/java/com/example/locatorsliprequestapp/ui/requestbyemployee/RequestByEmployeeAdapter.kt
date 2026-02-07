@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,8 +17,13 @@ import java.util.concurrent.TimeUnit
 
 class RequestByEmployeeAdapter(
     private val context: Context,
-    private var list: List<RequestByEmployeeData>
+    private var list: List<RequestByEmployeeData>,
+    private val onScanQrClicked: (RequestByEmployeeData) -> Unit
 ) : RecyclerView.Adapter<RequestByEmployeeAdapter.ViewHolder>() {
+
+    companion object {
+        internal const val NULL_DATE = "0000-00-00 00:00:00"
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val requestDate: TextView = view.findViewById(R.id.txtRequestDate)
@@ -34,6 +40,7 @@ class RequestByEmployeeAdapter(
         val entryPoint: TextView = view.findViewById(R.id.txtEntryPoint)
         val returnedAfter: TextView = view.findViewById(R.id.txtReturnedAfter)
         val returnedAfterLayout: LinearLayout = view.findViewById(R.id.returnedAfterLayout)
+        val scanQrButton: Button = view.findViewById(R.id.scanQrButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -65,6 +72,20 @@ class RequestByEmployeeAdapter(
         holder.detailsLayout.visibility = View.GONE
         holder.completeDetailsLayout.visibility = View.GONE
         holder.returnedAfterLayout.visibility = View.GONE
+        
+        if (item.status == RequestStatus.APPROVED) {
+            if (item.timeOut == null || item.timeOut == NULL_DATE) {
+                holder.scanQrButton.visibility = View.VISIBLE
+                holder.scanQrButton.text = "Scan to Time Out"
+            } else if (item.timeIn == null || item.timeIn == NULL_DATE) {
+                holder.scanQrButton.visibility = View.VISIBLE
+                holder.scanQrButton.text = "Scan to Time In"
+            } else {
+                holder.scanQrButton.visibility = View.GONE
+            }
+        } else {
+            holder.scanQrButton.visibility = View.GONE
+        }
 
         if (item.status == RequestStatus.COMPLETED) {
             holder.returnedAfterLayout.visibility = View.VISIBLE
@@ -75,7 +96,7 @@ class RequestByEmployeeAdapter(
             var timeOutDate: java.util.Date? = null
 
 
-            if (timeOutStr != null) {
+            if (timeOutStr != null && timeOutStr != NULL_DATE) {
                 try {
                     timeOutDate = inputDateFormat.parse(timeOutStr)
                     holder.timeOut.text = outputTimeFormat.format(timeOutDate)
@@ -86,7 +107,7 @@ class RequestByEmployeeAdapter(
                  holder.timeOut.text = "N/A"
             }
 
-            if (timeInStr != null) {
+            if (timeInStr != null && timeInStr != NULL_DATE) {
                  try {
                     timeInDate = inputDateFormat.parse(timeInStr)
                     holder.timeIn.text = outputTimeFormat.format(timeInDate)
@@ -117,11 +138,15 @@ class RequestByEmployeeAdapter(
 
             holder.detailsLayout.visibility = newVisibility
 
-            if (item.status == RequestStatus.COMPLETED) {
+            if (item.status.trim().equals("Completed", ignoreCase = true)) {
                 holder.completeDetailsLayout.visibility = newVisibility
             } else {
                 holder.completeDetailsLayout.visibility = View.GONE
             }
+        }
+
+        holder.scanQrButton.setOnClickListener {
+            onScanQrClicked(item)
         }
     }
 
