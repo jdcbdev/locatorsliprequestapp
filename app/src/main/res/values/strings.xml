@@ -8,7 +8,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">My Locator\'s Slip</string>
-    <string name="menu_gallery">Slip for Approval</string>
+    <string name="menu_gallery">Locator\'s Slip Request</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

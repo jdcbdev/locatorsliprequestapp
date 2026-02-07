@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="wmsu">#aa0022</color>
     <color name="wmsu_light">#D46A6A</color>
+    <color name="waiting_for_approval">#FFA500</color> <!-- Orange -->
 </resources>

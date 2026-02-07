@@ -38,6 +38,15 @@ interface ApiService {
     @FormUrlEncoded
     @POST("getRequestsBySupervisor.php")
     fun getRequestsBySupervisor(
-        @Field("supervisorId") supervisorId: Int
-    ): Call<RequestByEmployeeListResponse>
+        @Field("supervisorId") supervisorId: Int,
+        @Field("status") status: String
+    ): Call<RequestBySupervisorListResponse>
+
+    @FormUrlEncoded
+    @POST("updateRequest.php")
+    fun updateRequestStatus(
+        @Field("id") requestId: Int,
+        @Field("status") status: String,
+        @Field("actionby") actionBy: Int
+    ): Call<UpdateStatusResponse>
 }
