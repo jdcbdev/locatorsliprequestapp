@@ -18,97 +18,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/tvNameLabel"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Employee Name:"
-        android:textStyle="bold"
+        android:layout_marginEnd="16dp"
+        android:hint="Date of Request"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvNameLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvNameLabel" />
-
-    <TextView
-        android:id="@+id/tvDeptLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Department:"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvNameLabel"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameLabel" />
-
-    <TextView
-        android:id="@+id/tvDept"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvDeptLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvDeptLabel" />
-
-    <TextView
-        android:id="@+id/tvEmployeeCodeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Employee Code:"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvDeptLabel"
-        app:layout_constraintTop_toBottomOf="@+id/tvDeptLabel" />
-
-    <TextView
-        android:id="@+id/tvEmployeeCode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvEmployeeCodeLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvEmployeeCodeLabel" />
-
-    <TextView
-        android:id="@+id/tvDateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Date of Request:"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/tvDeptLabel"
-        app:layout_constraintTop_toBottomOf="@+id/tvEmployeeCodeLabel" />
-
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvDateLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvDateLabel" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:longClickable="false" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/purposeLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="Purpose"
-        app:layout_constraintEnd_toEndOf="@+id/tvDate"
-        app:layout_constraintStart_toStartOf="@+id/tvDateLabel"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateLabel">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateLayout">
 
         <AutoCompleteTextView
             android:id="@+id/purposeDropdown"
@@ -144,36 +88,36 @@
         android:hint="Details"
         app:layout_constraintEnd_toEndOf="@+id/destinationLayout"
         app:layout_constraintStart_toStartOf="@+id/destinationLayout"
-        app:layout_constraintTop_toBottomOf="@id/destinationLayout">
+        app:layout_constraintTop_toBottomOf="@+id/destinationLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/detailsEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:gravity="top" />
+            android:gravity="top"
+            android:lines="2" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvSupervisorLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Supervisor:"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/detailsLayout"
-        app:layout_constraintTop_toBottomOf="@+id/detailsLayout" />
-
-    <TextView
-        android:id="@+id/tvSupervisor"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/supervisorLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvSupervisorLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvSupervisorLabel" />
+        android:layout_marginTop="16dp"
+        android:hint="Supervisor"
+        app:layout_constraintEnd_toEndOf="@+id/detailsLayout"
+        app:layout_constraintStart_toStartOf="@+id/detailsLayout"
+        app:layout_constraintTop_toBottomOf="@+id/detailsLayout">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/supervisorEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:longClickable="false" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvNote"
@@ -185,10 +129,10 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/detailsLayout"
         app:layout_constraintStart_toStartOf="@+id/detailsLayout"
-        app:layout_constraintTop_toBottomOf="@+id/tvSupervisor" />
+        app:layout_constraintTop_toBottomOf="@+id/supervisorLayout" />
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/submitButton"
         android:layout_width="0dp"
         android:layout_height="60dp"

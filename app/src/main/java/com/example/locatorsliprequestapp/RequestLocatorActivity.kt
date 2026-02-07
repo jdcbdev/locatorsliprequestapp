@@ -36,13 +36,11 @@ class RequestLocatorActivity : AppCompatActivity() {
         // Set current date
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = sdf.format(Date())
-        binding.tvDate.text = currentDate
+        binding.dateEditText.setText(currentDate)
 
         // --- CHECK USER SESSION ---
         val pref = getSharedPreferences("session", MODE_PRIVATE)
         val empId = pref.getInt("empId", 0)
-
-
 
         ApiClient.instance.getEmployeeById(empId)
             .enqueue(object : Callback<EmployeeResponse> {
@@ -53,14 +51,8 @@ class RequestLocatorActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful && response.body()?.success == true) {
                         val emp = response.body()!!.employeeData
-
-                        val fullName = "${emp.firstname} ${emp.lastname}"
                         val supervisor = emp.supervisor_name ?: "None"
-
-                        binding.tvName.text = fullName
-                        binding.tvSupervisor.text = supervisor
-                        binding.tvDept.text = emp.department
-                        binding.tvEmployeeCode.text = emp.employee_code
+                        binding.supervisorEditText.setText(supervisor)
 
                     } else {
                         var errorMessage = "An unknown error occurred."
