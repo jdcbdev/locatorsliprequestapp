@@ -71,4 +71,10 @@ interface ApiService {
         @Field("employeeId") employeeId: Int,
         @Field("status") status: String
     ): Call<CountEmployeeRequestsResponse>
+
+    @FormUrlEncoded
+    @POST("validateQRCode.php")
+    fun validateQRCode(
+        @Field("qrData") status: String
+    ): Call<ValidateQRCodeResponse>
 }

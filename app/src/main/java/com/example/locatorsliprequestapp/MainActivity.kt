@@ -18,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.locatorsliprequestapp.api.ApiClient
+import com.example.locatorsliprequestapp.api.CountEmployeeRequestsResponse
 import com.example.locatorsliprequestapp.api.EmployeeResponse
 import com.example.locatorsliprequestapp.databinding.ActivityMainBinding
 import com.example.locatorsliprequestapp.ui.requestbyemployee.RequestByEmployeeFragment
@@ -63,8 +64,57 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener {
-            val intent = Intent(this, RequestLocatorActivity::class.java)
-            addRequestLauncher.launch(intent)
+            val employeeId = getSharedPreferences("session", MODE_PRIVATE).getInt("empId", 0)
+            if (employeeId == 0) {
+                Toast.makeText(this, "Cannot verify user.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Check for pending requests first
+            ApiClient.instance.countRequestsByStatus(employeeId, "pending")
+                .enqueue(object : Callback<CountEmployeeRequestsResponse> {
+                    override fun onResponse(
+                        call: Call<CountEmployeeRequestsResponse>,
+                        response: Response<CountEmployeeRequestsResponse>
+                    ) {
+                        if (response.isSuccessful && response.body()?.success == true) {
+                            if (response.body()!!.count > 0) {
+                                Toast.makeText(this@MainActivity, "Cant make request while have request not yet completed", Toast.LENGTH_LONG).show()
+                            } else {
+                                // No pending requests, now check for approved requests
+                                ApiClient.instance.countRequestsByStatus(employeeId, "approved")
+                                    .enqueue(object : Callback<CountEmployeeRequestsResponse> {
+                                        override fun onResponse(
+                                            call: Call<CountEmployeeRequestsResponse>,
+                                            response: Response<CountEmployeeRequestsResponse>
+                                        ) {
+                                            if (response.isSuccessful && response.body()?.success == true) {
+                                                if (response.body()!!.count > 0) {
+                                                    Toast.makeText(this@MainActivity, "Cant make request while have request not yet completed", Toast.LENGTH_LONG).show()
+                                                } else {
+                                                    // No pending or approved requests, proceed
+                                                    val intent = Intent(this@MainActivity, RequestLocatorActivity::class.java)
+                                                    addRequestLauncher.launch(intent)
+                                                }
+                                            } else {
+                                                Toast.makeText(this@MainActivity, "Failed to check requests status.", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+
+                                        override fun onFailure(call: Call<CountEmployeeRequestsResponse>, t: Throwable) {
+                                            Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                    })
+                            }
+                        } else {
+                            Toast.makeText(this@MainActivity, "Failed to check requests status.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<CountEmployeeRequestsResponse>, t: Throwable) {
+                        Toast.makeText(this@MainActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout

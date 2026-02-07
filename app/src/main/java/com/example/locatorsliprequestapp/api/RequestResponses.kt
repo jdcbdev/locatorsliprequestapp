@@ -52,3 +52,8 @@ data class CountEmployeeRequestsResponse(
     @SerializedName("success") val success: Boolean,
     @SerializedName("message") val message: String
 )
+
+data class ValidateQRCodeResponse(
+    @SerializedName("success") val success: Boolean,
+    @SerializedName("message") val message: String
+)

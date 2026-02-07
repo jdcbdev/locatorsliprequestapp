@@ -9,5 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="wmsu">#aa0022</color>
     <color name="wmsu_light">#D46A6A</color>
-    <color name="waiting_for_approval">#FFA500</color> <!-- Orange -->
+    <color name="green">#41A67E</color>
+
+    <!-- Pending -->
+    <color name="status_pending">#F59E0B</color>
+    <!-- Approved -->
+    <color name="status_approved">#22C55E</color>
+    <!-- Denied -->
+    <color name="status_denied">#EF4444</color>
+    <!-- Completed -->
+    <color name="status_completed">#3B82F6</color>
+    <!-- Cancelled -->
+    <color name="status_cancelled">#6B7280</color>
 </resources>

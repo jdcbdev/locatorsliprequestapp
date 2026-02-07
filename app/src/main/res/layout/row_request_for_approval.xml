@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             tools:text="Waiting for Approval"
-            android:textColor="@color/waiting_for_approval"
+            android:textColor="@color/status_pending"
             app:layout_constraintBaseline_toBaselineOf="@+id/labelApprovalStatus"
             app:layout_constraintStart_toEndOf="@+id/labelApprovalStatus" />
 

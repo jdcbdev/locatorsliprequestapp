@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatorsliprequestapp.R
 import com.example.locatorsliprequestapp.api.RequestByEmployeeData
@@ -68,18 +69,30 @@ class RequestByEmployeeAdapter(
         holder.location.text = item.location
         holder.details.text = item.details
 
+        val statusColor = when (item.status) {
+            "Pending" -> R.color.status_pending
+            "Approved" -> R.color.status_approved
+            "Denied" -> R.color.status_denied
+            "Completed" -> R.color.status_completed
+            "Cancelled" -> R.color.status_cancelled
+            else -> android.R.color.black
+        }
+        holder.approvalStatus.setTextColor(ContextCompat.getColor(context, statusColor))
+
         // Set initial visibility
         holder.detailsLayout.visibility = View.GONE
         holder.completeDetailsLayout.visibility = View.GONE
         holder.returnedAfterLayout.visibility = View.GONE
-        
+
         if (item.status == RequestStatus.APPROVED) {
             if (item.timeOut == null || item.timeOut == NULL_DATE) {
                 holder.scanQrButton.visibility = View.VISIBLE
                 holder.scanQrButton.text = "Scan to Time Out"
+                holder.scanQrButton.setBackgroundColor(ContextCompat.getColor(context, R.color.wmsu))
             } else if (item.timeIn == null || item.timeIn == NULL_DATE) {
                 holder.scanQrButton.visibility = View.VISIBLE
                 holder.scanQrButton.text = "Scan to Time In"
+                holder.scanQrButton.setBackgroundColor(ContextCompat.getColor(context, R.color.green))
             } else {
                 holder.scanQrButton.visibility = View.GONE
             }
@@ -99,18 +112,16 @@ class RequestByEmployeeAdapter(
             if (timeOutStr != null && timeOutStr != NULL_DATE) {
                 try {
                     timeOutDate = inputDateFormat.parse(timeOutStr)
-                    holder.timeOut.text = outputTimeFormat.format(timeOutDate)
                 } catch (e: Exception) {
                     holder.timeOut.text = timeOutStr
                 }
             } else {
-                 holder.timeOut.text = "N/A"
+                holder.timeOut.text = "N/A"
             }
 
             if (timeInStr != null && timeInStr != NULL_DATE) {
-                 try {
+                try {
                     timeInDate = inputDateFormat.parse(timeInStr)
-                    holder.timeIn.text = outputTimeFormat.format(timeInDate)
                 } catch (e: Exception) {
                     holder.timeIn.text = timeInStr
                 }
@@ -124,10 +135,32 @@ class RequestByEmployeeAdapter(
             // Calculate the difference between timeIn and timeOut
             if (timeInDate != null && timeOutDate != null) {
                 val diff = timeInDate.time - timeOutDate.time
-                val hours = TimeUnit.MILLISECONDS.toHours(diff)
+
+                val displayFormat = if (diff >= TimeUnit.DAYS.toMillis(1)) {
+                    outputDateFormat
+                } else {
+                    outputTimeFormat
+                }
+                holder.timeOut.text = displayFormat.format(timeOutDate)
+                holder.timeIn.text = displayFormat.format(timeInDate)
+
+                val days = TimeUnit.MILLISECONDS.toDays(diff)
+                val hours = TimeUnit.MILLISECONDS.toHours(diff) % 24
                 val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
-                holder.returnedAfter.text = String.format("%d hours and %d minutes", hours, minutes)
+                if (days > 0) {
+                    holder.returnedAfter.text =
+                        String.format("%d days, %d hours and %d minutes", days, hours, minutes)
+                } else {
+                    holder.returnedAfter.text =
+                        String.format("%d hours and %d minutes", hours, minutes)
+                }
             } else {
+                if (timeOutDate != null) {
+                    holder.timeOut.text = outputTimeFormat.format(timeOutDate)
+                }
+                if (timeInDate != null) {
+                    holder.timeIn.text = outputTimeFormat.format(timeInDate)
+                }
                 holder.returnedAfter.text = "N/A"
             }
         }

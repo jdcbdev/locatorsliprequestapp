@@ -21,6 +21,7 @@ import com.example.locatorsliprequestapp.api.RequestByEmployeeData
 import com.example.locatorsliprequestapp.api.RequestByEmployeeListResponse
 import com.example.locatorsliprequestapp.api.UpdateTimeInRequestResponse
 import com.example.locatorsliprequestapp.api.UpdateTimeOutRequestResponse
+import com.example.locatorsliprequestapp.api.ValidateQRCodeResponse
 import com.example.locatorsliprequestapp.databinding.FragmentRequestByEmployeeBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,14 +45,9 @@ class RequestByEmployeeFragment : Fragment() {
     private val scanQrLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val qrCode = result.data?.getStringExtra("qrCode")
+
             if (qrCode != null) {
-                selectedRequest?.let { request ->
-                    if (request.timeOut == null || request.timeOut == NULL_DATE) {
-                        updateTimeOutRequest(request.requestId, qrCode)
-                    } else {
-                        updateTimeInRequest(request.requestId, qrCode)
-                    }
-                }
+                validateQrCode(qrCode)
             }
         }
     }
@@ -91,6 +87,31 @@ class RequestByEmployeeFragment : Fragment() {
         fetchRequests()
 
         return root
+    }
+
+    private fun validateQrCode(qrCode: String) {
+        ApiClient.instance.validateQRCode(qrCode).enqueue(object : Callback<ValidateQRCodeResponse> {
+            override fun onResponse(
+                call: Call<ValidateQRCodeResponse>,
+                response: Response<ValidateQRCodeResponse>
+            ) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    selectedRequest?.let { request ->
+                        if (request.timeOut == null || request.timeOut == NULL_DATE) {
+                            updateTimeOutRequest(request.requestId, qrCode)
+                        } else {
+                            updateTimeInRequest(request.requestId, qrCode)
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Invalid QR Code", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ValidateQRCodeResponse>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun fetchRequests() {
@@ -145,7 +166,7 @@ class RequestByEmployeeFragment : Fragment() {
                 override fun onResponse(call: Call<UpdateTimeInRequestResponse>, response: Response<UpdateTimeInRequestResponse>) {
                     if (response.isSuccessful && response.body()?.success == true) {
                         Toast.makeText(requireContext(), "Time in updated successfully", Toast.LENGTH_SHORT).show()
-                        fetchRequests() // Refresh the list
+                        fetchRequests()
                     } else {
                         Toast.makeText(requireContext(), "Failed to update time in", Toast.LENGTH_SHORT).show()
                     }

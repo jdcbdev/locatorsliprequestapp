@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locatorsliprequestapp.R
 import com.example.locatorsliprequestapp.api.RequestBySupervisorData
@@ -73,6 +74,16 @@ class LocatorSlipForApprovalAdapter(
         holder.purpose.text = item.purpose
         holder.location.text = item.location
         holder.details.text = item.details
+
+        val statusColor = when (item.status) {
+            "Pending" -> R.color.status_pending
+            "Approved" -> R.color.status_approved
+            "Denied" -> R.color.status_denied
+            "Completed" -> R.color.status_completed
+            "Cancelled" -> R.color.status_cancelled
+            else -> android.R.color.black
+        }
+        holder.approvalStatus.setTextColor(ContextCompat.getColor(context, statusColor))
 
         // Set initial visibility
         holder.detailsLayout.visibility = View.GONE
