@@ -64,4 +64,11 @@ interface ApiService {
         @Field("requestId") requestId: Int,
         @Field("entrypoint") entryPoint: String
     ): Call<UpdateTimeInRequestResponse>
+
+    @FormUrlEncoded
+    @POST("countRequestsByStatus.php")
+    fun countRequestsByStatus(
+        @Field("employeeId") employeeId: Int,
+        @Field("status") status: String
+    ): Call<CountEmployeeRequestsResponse>
 }

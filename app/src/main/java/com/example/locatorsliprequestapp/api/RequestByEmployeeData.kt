@@ -1,5 +1,4 @@
 package com.example.locatorsliprequestapp.api
-
 import com.google.gson.annotations.SerializedName
 
 data class RequestByEmployeeData(
