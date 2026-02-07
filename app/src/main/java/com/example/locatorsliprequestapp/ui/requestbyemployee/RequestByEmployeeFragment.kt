@@ -30,7 +30,7 @@ class RequestByEmployeeFragment : Fragment() {
         // Setup RecyclerView
         binding.recyclerRequests.layoutManager =
             LinearLayoutManager(requireContext())
-        requestByEmployeeAdapter = RequestByEmployeeAdapter(emptyList())
+        requestByEmployeeAdapter = RequestByEmployeeAdapter(requireContext(), emptyList())
         binding.recyclerRequests.adapter = requestByEmployeeAdapter
 
         binding.swipeRefreshLayout.setOnRefreshListener {
